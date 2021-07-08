@@ -1,0 +1,29 @@
+kind: pipeline
+name : xKernel Compiler
+version: rev1.5_template
+steps:
+ - name: xKernel Compilation
+   image: xyzuan/xdocker:latest
+   environment:
+     KERNEL_NAME:
+       from_secret: KERNEL_NAME
+     KERNEL_SOURCE:
+       from_secret: KERNEL_SOURCE
+     KERNEL_BRANCH:
+       from_secret: KERNEL_BRANCH
+     DEVICE_CODENAME:
+       from_secret: DEVICE_CODENAME
+     DEVICE_DEFCONFIG:
+       from_secret: DEVICE_DEFCONFIG
+     ANYKERNEL:
+       from_secret: ANYKERNEL
+     TG_TOKEN:
+       from_secret: TG_TOKEN
+     TG_CHAT_ID:
+       from_secret: TG_CHAT_ID
+     BUILD_USER:
+       from_secret: BUILD_USER
+     BUILD_HOST:
+       from_secret: BUILD_HOST
+   commands:
+     - bash kernel_build.sh
