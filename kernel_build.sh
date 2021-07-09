@@ -38,18 +38,19 @@ START=$(date +"%s")
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
 function check() {
-#!/bin/bash
-export KBUILD_BUILD_USER=tolaylanz
-export KBUILD_BUILD_HOST=turte
-export CROSS_COMPILE=aarch64-linux-gnu-
-export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-# Compie plox
-function compile() {
-    make -j$(nproc) O=out ARCH=arm64 whyred_defconfig
-    make -j$(nproc) ARCH=arm64 O=out \
-                              CC=clang-11
+echo ================================================
+echo xKernelCompiler
+echo version : rev1.5 - gaspoll
+echo ================================================
+echo BUILDER NAME = ${KBUILD_BUILD_USER}
+echo BUILDER HOSTNAME = ${KBUILD_BUILD_HOST}
+echo DEVICE_DEFCONFIG = ${DEVICE_DEFCONFIG}
+echo TOOLCHAIN_VERSION = ${KBUILD_COMPILER_STRING}
+echo CLANG_ROOTDIR = ${CLANG_ROOTDIR}
+echo KERNEL_ROOTDIR = ${KERNEL_ROOTDIR}
+echo ================================================
 }
-compile
+
 # Telegram
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
 
