@@ -86,6 +86,7 @@ make -j$(nproc) ARCH=arm64 O=out \
    fi
 
   git clone --depth=1 $ANYKERNEL AnyKernel
+	cp $IMAGE AnyKernel
 }
 
 # Push kernel to channel
@@ -111,7 +112,7 @@ function finerr() {
 # Zipping
 function zipping() {
     cd AnyKernel || exit 1
-    zip -r9 $KERNEL_NAME-$DEVICE_CODENAME-$(date +"%Y-%m-%d-%H-%M-%S").zip *
+    zip -r9 $KERNEL_NAME-$DEVICE_CODENAME-${DATE}.zip *
     cd ..
 }
 check
