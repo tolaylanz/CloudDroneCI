@@ -18,12 +18,12 @@
 echo "Downloading few Dependecies . . ."
 # Kernel Sources
 git clone --depth=1 $KERNEL_SOURCE $KERNEL_BRANCH $DEVICE_CODENAME
-git clone --depth=1 https://github.com/xyz-prjkt/xRageTC_build xRageTC # xRageTC set as Clang Default
+git clone --depth=1 https://github.com/tolaylanz/xNadtanTC-Build xNadtanTC # xRageTC set as Clang Default
 
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 DEVICE_DEFCONFIG=$DEVICE_DEFCONFIG # IMPORTANT ! Declare your kernel source defconfig file here.
-CLANG_ROOTDIR=$(pwd)/xRageTC # IMPORTANT! Put your clang directory here.
+CLANG_ROOTDIR=$(pwd)/xNadtanTC # IMPORTANT! Put your clang directory here.
 export KBUILD_BUILD_USER=$BUILD_USER # Change with your own name or else.
 export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 
@@ -38,19 +38,18 @@ START=$(date +"%s")
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
 function check() {
-echo ================================================
-echo xKernelCompiler
-echo version : rev1.5 - gaspoll
-echo ================================================
-echo BUILDER NAME = ${KBUILD_BUILD_USER}
-echo BUILDER HOSTNAME = ${KBUILD_BUILD_HOST}
-echo DEVICE_DEFCONFIG = ${DEVICE_DEFCONFIG}
-echo TOOLCHAIN_VERSION = ${KBUILD_COMPILER_STRING}
-echo CLANG_ROOTDIR = ${CLANG_ROOTDIR}
-echo KERNEL_ROOTDIR = ${KERNEL_ROOTDIR}
-echo ================================================
+#!/bin/bash
+export KBUILD_BUILD_USER=tolaylanz
+export KBUILD_BUILD_HOST=turte
+export CROSS_COMPILE=aarch64-linux-gnu-
+export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+# Compie plox
+function compile() {
+    make -j$(nproc) O=out ARCH=arm64 whyred_defconfig
+    make -j$(nproc) ARCH=arm64 O=out \
+                              CC=clang-11
 }
-
+compile
 # Telegram
 export BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
 
