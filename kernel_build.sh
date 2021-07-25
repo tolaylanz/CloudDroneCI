@@ -37,6 +37,7 @@ CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(ht
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
+AK3=$ANYKERNEL
 DATE=$(TZ=Asia/Jakarta date +"%F-%S")
 START=$(date +"%s")
 
@@ -89,14 +90,13 @@ make -j$(nproc) ARCH=arm64 O=out \
 	finerr
 	exit 1
    fi
-
-  git clone --depth=1 $ANYKERNEL AnyKernel
-	cp -r "$IMAGE" AnyKernel
+   
+	cp -r "$IMAGE" "$AK3"
 }
 
 # Push kernel to channel
 function push() {
-    cd AnyKernel
+    cd "$AK3"
     ZIP=$(echo *.zip)
     curl -F document=@$ZIP "https://api.telegram.org/bot$TG_TOKEN/sendDocument" \
         -F chat_id="$TG_CHAT_ID" \
@@ -116,9 +116,9 @@ function finerr() {
 
 # Zipping
 function zipping() {
-    cd AnyKernel || exit 1
+    cd "$AK3" || exit
     zip -r9 $KERNEL_NAME-$DEVICE_CODENAME-${DATE}.zip *
-    cd AnyKernel
+    cd ..
 }
 check
 compile
