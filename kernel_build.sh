@@ -33,12 +33,11 @@ export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 
 # Main Declaration
 export TZ="Asia/Jakarta"
-ZIP_DATE=$(TZ=Asia/Jakarta date +'%d%m%Y')
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
-DATE=$(date +"%F-%S")
+DATE=$(TZ=Asia/Jakarta date +"%F-%S")
 START=$(date +"%s")
 
 # Checking environtment
@@ -92,7 +91,7 @@ make -j$(nproc) ARCH=arm64 O=out \
    fi
 
   git clone --depth=1 $ANYKERNEL AnyKernel
-	cp $IMAGE AnyKernel
+	cp -r $IMAGE AnyKernel
 }
 
 # Push kernel to channel
@@ -118,7 +117,7 @@ function finerr() {
 # Zipping
 function zipping() {
     cd AnyKernel || exit 1
-    zip -r9 $KERNEL_NAME-$DEVICE_CODENAME-"$ZIP_DATE".zip *
+    zip -r9 $KERNEL_NAME-$DEVICE_CODENAME-${DATE}.zip *
     cd ..
 }
 check
