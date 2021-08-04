@@ -23,7 +23,7 @@ git clone --depth=1 https://github.com/tolaylanz/xndtplaygrnd xndtplaygrnd # xRa
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 DEVICE_DEFCONFIG=$DEVICE_DEFCONFIG # IMPORTANT ! Declare your kernel source defconfig file here.
-CLANG_ROOTDIR=$(pwd)/xNadtanTC # IMPORTANT! Put your clang directory here.
+CLANG_ROOTDIR=$(pwd)/xndtplaygrnd # IMPORTANT! Put your clang directory here.
 export KBUILD_BUILD_USER=$BUILD_USER # Change with your own name or else.
 export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 
