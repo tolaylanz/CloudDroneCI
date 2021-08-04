@@ -20,10 +20,6 @@ echo "Downloading few Dependecies . . ."
 git clone --depth=1 $KERNEL_SOURCE $KERNEL_BRANCH $DEVICE_CODENAME
 git clone --depth=1 https://github.com/tolaylanz/xNadtanTC-Build xNadtanTC # xRageTC set as Clang Default
 
-# Setup Environtment
-
-KERNEL_IMG=$KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb
-
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 DEVICE_DEFCONFIG=$DEVICE_DEFCONFIG # IMPORTANT ! Declare your kernel source defconfig file here.
