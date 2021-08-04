@@ -32,13 +32,11 @@ export KBUILD_BUILD_USER=$BUILD_USER # Change with your own name or else.
 export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 
 # Main Declaration
-export TZ="Asia/Jakarta"
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
-AK3=$ANYKERNEL
-DATE=$(TZ=Asia/Jakarta date +"%F-%S")
+DATE=$(date +"%F-%S")
 START=$(date +"%s")
 
 # Checking environtment
@@ -90,13 +88,14 @@ make -j$(nproc) ARCH=arm64 O=out \
 	finerr
 	exit 1
    fi
-   
-	cp -r "$IMAGE" "$AK3"
+
+  git clone --depth=1 $ANYKERNEL AnyKernel
+	cp $IMAGE AnyKernel
 }
 
 # Push kernel to channel
 function push() {
-    cd "$AK3"
+    cd AnyKernel
     ZIP=$(echo *.zip)
     curl -F document=@$ZIP "https://api.telegram.org/bot$TG_TOKEN/sendDocument" \
         -F chat_id="$TG_CHAT_ID" \
@@ -116,7 +115,7 @@ function finerr() {
 
 # Zipping
 function zipping() {
-    cd "$AK3" || exit
+    cd AnyKernel || exit 1
     zip -r9 $KERNEL_NAME-$DEVICE_CODENAME-${DATE}.zip *
     cd ..
 }
